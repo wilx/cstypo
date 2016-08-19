@@ -1,0 +1,70 @@
+\documentclass{article}
+\usepackage{lmodern}
+\usepackage{ifluatex,ifdraft}
+\usepackage[a6paper]{geometry}
+\usepackage{parskip}
+\usepackage{polyglossia}
+\setmainlanguage[]{czech}
+\usepackage{microtype}
+
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\newcommand{\expl}[1]{{\sffamily #1}}
+
+\RequirePackage{luatexbase,luacode}
+
+\begin{document}
+\section{Bad line breaks}
+
+\expl{The follwing text has prepostions `O' and `k' at end of line which
+  is incorrect according to Czech language typography standards:}
+
+Mezi oblíbené dětské pohádky patří pohádky \emph{O Palečkovi, Alenka v říši
+  divů} a \emph{Socialismem k lepším zítřkům.}
+
+\section{Better line breaks}
+
+\expl{And here we add Lua code to penalize single letter words. It results in
+following line layout:}
+
+\ifluatex
+      \begin{luacode}
+
+      local prevent_single_letter = function (head)
+        while head do
+        -- glyph
+        if head.id == 37 then
+            if unicode.utf8.match(unicode.utf8.char(head.char),"[zZsSuUkKoOvVaAiI]") then
+              -- only if we are at a one letter word
+              if ((head.prev.id == 10
+                   or (head.prev.id == 37
+                       and unicode.utf8.match(unicode.utf8.char(head.prev.char),"[%[%]()%{%}]")))
+                 and head.next.id == 10) then
+                 local p = node.new("penalty")
+                 p.penalty = 10000
+                 node.insert_after(head,head,p)
+               end
+            end
+          end
+          head = head.next
+        end
+        return true
+      end
+
+      luatexbase.add_to_callback("pre_linebreak_filter",prevent_single_letter,"~")
+      \end{luacode}
+\else
+   \PackageError{The nosingleletter option only works with LuaTeX}
+\fi
+
+Mezi oblíbené dětské pohádky patří pohádky \emph{O Palečkovi, Alenka v říši
+  divů} a \emph{Socialismem k lepším zítřkům.}
+
+\expl{The follwing text is the same as above but parentheses are used to test
+  that a preposition stay with following word even if the prepostion is
+  preceeded with a parenthesis:}
+
+Mezi oblíbené dětské pohádky patří pohádky \emph{(O Palečkovi), Alenka v říši
+  divů} a \emph{Socialismem (k lepším zítřkům).}
+
+
+\end{document}
