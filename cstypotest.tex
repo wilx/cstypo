@@ -21,6 +21,15 @@
 Mezi oblíbené dětské pohádky patří pohádky \emph{O Palečkovi, Alenka v říši
   divů} a \emph{Socialismem k lepším zítřkům.}
 
+\expl{The follwing text is the same as above but parentheses are used to test
+  that a preposition stay (or not stay, in this case) with following word
+  even if the prepostion is preceeded with a parenthesis:}
+
+Mezi oblíbené dětské pohádky patří pohádky \emph{[O Palečkovi], Alenka v říši
+  divů} a \emph{Socialismem (k lepším zítřkům).}
+
+Se správným nastavením fontů znak \% v `na 100 \%' skončí na další řádce.
+
 \section{Better line breaks}
 
 \expl{And here we add Lua code to penalize single letter words. It results in
@@ -50,8 +59,31 @@ following line layout:}
         return true
       end
 
-      luatexbase.add_to_callback("pre_linebreak_filter",prevent_single_letter,"~")
-      \end{luacode}
+      luatexbase.add_to_callback("pre_linebreak_filter",prevent_single_letter,"cssingleletter")
+
+      local prevent_percents = function (head)
+        while head do
+        -- glyph
+        if head.id == 37 then
+            if unicode.utf8.match(unicode.utf8.char(head.char),"%%") then
+              -- only if we are at percentage sign
+              if (head.prev.id == 10
+                  and head.prev.prev.id == 37
+                  and unicode.utf8.match(unicode.utf8.char(head.prev.prev.char),"[0-9]")) then
+                 local p = node.new("penalty")
+                 p.penalty = 10000
+                 node.insert_after(head.prev.prev,head.prev.prev,p)
+               end
+            end
+          end
+          head = head.next
+        end
+        return true
+      end
+
+      luatexbase.add_to_callback("pre_linebreak_filter",prevent_percents,"cspercents")
+
+    \end{luacode}
 \else
    \PackageError{The nosingleletter option only works with LuaTeX}
 \fi
@@ -63,8 +95,9 @@ Mezi oblíbené dětské pohádky patří pohádky \emph{O Palečkovi, Alenka v 
   that a preposition stay with following word even if the prepostion is
   preceeded with a parenthesis:}
 
-Mezi oblíbené dětské pohádky patří pohádky \emph{(O Palečkovi), Alenka v říši
+Mezi oblíbené dětské pohádky patří pohádky \emph{[O Palečkovi], Alenka v říši
   divů} a \emph{Socialismem (k lepším zítřkům).}
 
+Se správným nastavením fontů znak \% v `na 100 \%' skončí na další řádce.
 
 \end{document}
