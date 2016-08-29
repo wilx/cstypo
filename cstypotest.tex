@@ -11,10 +11,8 @@
 \newcommand{\expl}[1]{{\sffamily #1}}
 
 \ifluatex
-\RequirePackage{luatexbase,luacode}
-\begin{luacode}
-  require(kpse.find_file('cstypo.lua', true))
-\end{luacode}
+\RequirePackage{luacode}
+\directlua{require('src/cstypo')}
 
 \newcommand{\cstypoSingleLetterEnable}{%
   \luaexec{cstypo_single_letter_enable()}}
