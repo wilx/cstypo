@@ -13,7 +13,7 @@
 \ifluatex
 \RequirePackage{luatexbase,luacode}
 \begin{luacode}
-  require('cstypo.lua')
+  require(kpse.find_file('cstypo.lua', true))
 \end{luacode}
 
 \newcommand{\cstypoSingleLetterEnable}{%
