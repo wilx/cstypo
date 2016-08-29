@@ -15,23 +15,7 @@
 \RequirePackage{ifluatex}
 
 \ifluatex
-\directlua{require('cstypo')}
-
-\newcommand{\cstypoSingleLetterEnable}{%
-  \directlua{cstypo_single_letter_enable()}}
-\newcommand{\cstypoSingleLetterDisable}{%
-  \directlua{cstypo_single_letter_disable()}}
-
-\newcommand{\cstypoALetterEnable}{%
-  \directlua{cstypo_a_letter_enable()}}
-\newcommand{\cstypoALetterDisable}{%
-  \directlua{cstypo_a_letter_disable()}}
-
-\newcommand{\cstypoPercentsEnable}{%
-  \directlua{cstypo_percents_enable()}}
-\newcommand{\cstypoPercentsDisable}{%
-  \directlua{cstypo_percents_disable()}}
-
+\input{cstypo-tex}
 \else
 \PackageError{cstypo}{%
   This requires LuaTeX or LuaLaTeX
