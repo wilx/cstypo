@@ -10,30 +10,35 @@
 \NeedsTeXFormat{LaTeX2e}[1994/06/01]
 \ProvidesPackage{cstypo}
   [2016/08/29 v0.01 LaTeX package to enforce some basic Czech language
-  typography rules. Requires LuaLaTeX.]
+  typography rules. Requires Lua(La)TeX.]
 
 \RequirePackage{ifluatex}
+
 \ifluatex
-\RequirePackage{luacode}
 \directlua{require('cstypo')}
 
 \newcommand{\cstypoSingleLetterEnable}{%
-  \luaexec{cstypo_single_letter_enable()}}
+  \directlua{cstypo_single_letter_enable()}}
 \newcommand{\cstypoSingleLetterDisable}{%
-  \luaexec{cstypo_single_letter_disable()}}
+  \directlua{cstypo_single_letter_disable()}}
 
 \newcommand{\cstypoALetterEnable}{%
-  \luaexec{cstypo_a_letter_enable()}}
+  \directlua{cstypo_a_letter_enable()}}
 \newcommand{\cstypoALetterDisable}{%
-  \luaexec{cstypo_a_letter_disable()}}
+  \directlua{cstypo_a_letter_disable()}}
 
 \newcommand{\cstypoPercentsEnable}{%
-  \luaexec{cstypo_percents_enable()}}
+  \directlua{cstypo_percents_enable()}}
 \newcommand{\cstypoPercentsDisable}{%
-  \luaexec{cstypo_percents_disable()}}
+  \directlua{cstypo_percents_disable()}}
 
 \else
-   \PackageError{This requires LuaTeX}
+\PackageError{cstypo}{%
+  This requires LuaTeX or LuaLaTeX
+}{%
+  Compile this with LuaTeX or LuaLaTeX.
+}
+
 \fi
 
 \endinput
