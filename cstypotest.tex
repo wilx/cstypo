@@ -10,9 +10,40 @@
 \setlength{\emergencystretch}{3em}  % prevent overfull lines
 \newcommand{\expl}[1]{{\sffamily #1}}
 
+\ifluatex
 \RequirePackage{luatexbase,luacode}
+\begin{luacode}
+  require('cstypo.lua')
+\end{luacode}
+
+\newcommand{\cstypoSingleLetterEnable}{%
+  \luaexec{cstypo_single_letter_enable()}}
+\newcommand{\cstypoSingleLetterDisable}{%
+  \luaexec{cstypo_single_letter_disable()}}
+
+\newcommand{\cstypoALetterEnable}{%
+  \luaexec{cstypo_a_letter_enable()}}
+\newcommand{\cstypoALetterDisable}{%
+  \luaexec{cstypo_a_letter_disable()}}
+
+\newcommand{\cstypoPercentsEnable}{%
+  \luaexec{cstypo_percents_enable()}}
+\newcommand{\cstypoPercentsDisable}{%
+  \luaexec{cstypo_percents_disable()}}
+
+\else
+   \PackageError{This requires LuaTeX}
+\fi
+
+
 
 \begin{document}
+% \directlua{
+%   for i,v in pairs(node.types()) do
+%   print(i,v)
+%   end
+%   }
+
 \section{Bad line breaks}
 
 \expl{The follwing text has prepostions `O' and `k' at end of line which
@@ -35,59 +66,9 @@ Se správným nastavením fontů znak \% v `na 100 \%' skončí na další řád
 \expl{And here we add Lua code to penalize single letter words. It results in
 following line layout:}
 
-\ifluatex
-      \begin{luacode}
-
-      local prevent_single_letter = function (head)
-        while head do
-        -- glyph
-        if head.id == 37 then
-            if unicode.utf8.match(unicode.utf8.char(head.char),"[zZsSuUkKoOvVaAiI]") then
-              -- only if we are at a one letter word
-              if ((head.prev.id == 10
-                   or (head.prev.id == 37
-                       and unicode.utf8.match(unicode.utf8.char(head.prev.char),"[%[%]()%{%}]")))
-                 and head.next.id == 10) then
-                 local p = node.new("penalty")
-                 p.penalty = 10000
-                 node.insert_after(head,head,p)
-               end
-            end
-          end
-          head = head.next
-        end
-        return true
-      end
-
-      luatexbase.add_to_callback("pre_linebreak_filter",prevent_single_letter,"cssingleletter")
-
-      local prevent_percents = function (head)
-        while head do
-        -- glyph
-        if head.id == 37 then
-            if unicode.utf8.match(unicode.utf8.char(head.char),"%%") then
-              -- only if we are at percentage sign
-              if (head.prev.id == 10
-                  and head.prev.prev.id == 37
-                  and unicode.utf8.match(unicode.utf8.char(head.prev.prev.char),"[0-9]")) then
-                 local p = node.new("penalty")
-                 p.penalty = 10000
-                 node.insert_after(head.prev.prev,head.prev.prev,p)
-               end
-            end
-          end
-          head = head.next
-        end
-        return true
-      end
-
-      luatexbase.add_to_callback("pre_linebreak_filter",prevent_percents,"cspercents")
-
-    \end{luacode}
-\else
-   \PackageError{The nosingleletter option only works with LuaTeX}
-\fi
-
+\cstypoSingleLetterEnable{}
+\cstypoPercentsEnable{}
+\cstypoALetterEnable{}
 Mezi oblíbené dětské pohádky patří pohádky \emph{O Palečkovi, Alenka v říši
   divů} a \emph{Socialismem k lepším zítřkům.}
 
@@ -99,5 +80,10 @@ Mezi oblíbené dětské pohádky patří pohádky \emph{[O Palečkovi], Alenka 
   divů} a \emph{Socialismem (k lepším zítřkům).}
 
 Se správným nastavením fontů znak \% v `na 100 \%' skončí na další řádce.
+
+\cstypoSingleLetterDisable{}
+\cstypoPercentsDisable{}
+\cstypoALetterDisable{}
+
 
 \end{document}
