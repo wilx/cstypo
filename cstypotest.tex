@@ -1,49 +1,20 @@
 \documentclass{article}
 \usepackage{lmodern}
-\usepackage{ifluatex,ifdraft}
+\usepackage{ifluatex}
 \usepackage[a6paper]{geometry}
 \usepackage{parskip}
 \usepackage{polyglossia}
 \setmainlanguage[]{czech}
+\setotherlanguage{english}
 \usepackage{microtype}
 
 \setlength{\emergencystretch}{3em}  % prevent overfull lines
-\newcommand{\expl}[1]{{\sffamily #1}}
+\newcommand{\expl}[1]{\begin{english}\sffamily #1\end{english}}
 
-\ifluatex
-\RequirePackage{luacode}
-\directlua{require('src/cstypo')}
-
-\newcommand{\cstypoSingleLetterEnable}{%
-  \luaexec{cstypo_single_letter_enable()}}
-\newcommand{\cstypoSingleLetterDisable}{%
-  \luaexec{cstypo_single_letter_disable()}}
-
-\newcommand{\cstypoALetterEnable}{%
-  \luaexec{cstypo_a_letter_enable()}}
-\newcommand{\cstypoALetterDisable}{%
-  \luaexec{cstypo_a_letter_disable()}}
-
-\newcommand{\cstypoPercentsEnable}{%
-  \luaexec{cstypo_percents_enable()}}
-\newcommand{\cstypoPercentsDisable}{%
-  \luaexec{cstypo_percents_disable()}}
-
-\else
-   \PackageError{This requires LuaTeX}
-\fi
-
-
+\usepackage{cstypo}
 
 \begin{document}
-% \directlua{
-%   for i,v in pairs(node.types()) do
-%   print(i,v)
-%   end
-%   }
-
 \section{Bad line breaks}
-
 \expl{The follwing text has prepostions `O' and `k' at end of line which
   is incorrect according to Czech language typography standards:}
 
@@ -57,10 +28,11 @@ Mezi oblíbené dětské pohádky patří pohádky \emph{O Palečkovi, Alenka v 
 Mezi oblíbené dětské pohádky patří pohádky \emph{[O Palečkovi], Alenka v říši
   divů} a \emph{Socialismem (k lepším zítřkům).}
 
+\expl{Next line shows bad line break between number and the \% symbol.}
+
 Se správným nastavením fontů znak \% v `na 100 \%' skončí na další řádce.
 
 \section{Better line breaks}
-
 \expl{And here we add Lua code to penalize single letter words. It results in
 following line layout:}
 
@@ -77,11 +49,32 @@ Mezi oblíbené dětské pohádky patří pohádky \emph{O Palečkovi, Alenka v 
 Mezi oblíbené dětské pohádky patří pohádky \emph{[O Palečkovi], Alenka v říši
   divů} a \emph{Socialismem (k lepším zítřkům).}
 
+\expl{Here, the \% symbol should be together with the number.}
+
 Se správným nastavením fontů znak \% v `na 100 \%' skončí na další řádce.
+
+\section{Bad line breaks again}
+\expl{This section shows that disabling of the hook works and that the
+  prepositions are again left at the end of their line.}
 
 \cstypoSingleLetterDisable{}
 \cstypoPercentsDisable{}
 \cstypoALetterDisable{}
+
+Mezi oblíbené dětské pohádky patří pohádky \emph{O Palečkovi, Alenka v říši
+  divů} a \emph{Socialismem k lepším zítřkům.}
+
+\expl{The follwing text is the same as above but parentheses are used to test
+  that a preposition stay (or not stay, in this case) with following word
+  even if the prepostion is preceeded with a parenthesis:}
+
+Mezi oblíbené dětské pohádky patří pohádky \emph{[O Palečkovi], Alenka v říši
+  divů} a \emph{Socialismem (k lepším zítřkům).}
+
+\expl{And here, line break is inserted before the \% symbol again.}
+
+Se správným nastavením fontů znak \% v `na 100 \%' skončí na další řádce.
+
 
 
 \end{document}

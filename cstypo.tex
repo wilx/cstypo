@@ -1,0 +1,83 @@
+\documentclass{article}
+\usepackage{ifluatex}
+
+\usepackage{fontspec}
+\defaultfontfeatures{Ligatures={TeX,Common},Scale=MatchLowercase}
+
+\usepackage{listings}
+\usepackage[b5paper]{geometry}
+\usepackage{parskip}
+%\usepackage{enumitem-zref}
+\usepackage{polyglossia}
+\setmainlanguage[]{english}
+
+\usepackage{microtype}
+
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+
+\lstdefinestyle{myLatexStyle}{
+  language=[LaTeX]{Tex},
+  basicstyle=\ttfamily
+}
+
+\author{Václav Haisman}
+\date{\today}
+\title{\texttt{cstypo} user manual}
+
+\begin{document}
+\begin{titlepage}
+  \maketitle
+\end{titlepage}
+
+\section{Introduction}
+The \texttt{cstypo} package provides macros that enforce basic Czech
+typography rules through Lua hooks available in LuaTeX.
+
+\begin{enumerate}%[name=rulesList]
+\item\label{itm:singleletter} There should be no line break between single
+  letter preprosition and single letter conjugations and word following them.
+\item\label{itm:percents} There should be no line break between number and \%
+  symbol.
+\end{enumerate}
+
+There are obviously more rules than these two but only the above rules are
+enforcable through this package.
+
+\section{User interface}
+
+The following two macros allow to enable and disable hook that enforces
+penalization of line breaks after single letter words:
+%(\refitem{rulesList{itm:singleletter}):
+
+\begin{lstlisting}[style=myLatexStyle]
+\newcommand{\cstypoSingleLetterEnable}{%
+  \luaexec{cstypo_single_letter_enable()}}
+\newcommand{\cstypoSingleLetterDisable}{%
+  \luaexec{cstypo_single_letter_disable()}}
+\end{lstlisting}
+
+The following two macros allow to enable and disable hook that enforces the
+same rule as above but for ‘a’ conjugation. The reason that this is separete
+from the rest of the single letter prepositions and conjugations is that line
+break after ‘a’ is tolerated for narrow column texts. It might be desirable
+to have this rule enforced for all of the single letter words except for the
+‘a’.
+
+\begin{lstlisting}[style=myLatexStyle]
+\newcommand{\cstypoALetterEnable}{%
+  \luaexec{cstypo_a_letter_enable()}}
+\newcommand{\cstypoALetterDisable}{%
+  \luaexec{cstypo_a_letter_disable()}}
+\end{lstlisting}
+
+The following two macros allow to enable and disable hook that enforces
+penalization of line breaks between number and \% symbol.
+
+\begin{lstlisting}[style=myLatexStyle]
+\newcommand{\cstypoPercentsEnable}{%
+  \luaexec{cstypo_percents_enable()}}
+\newcommand{\cstypoPercentsDisable}{%
+  \luaexec{cstypo_percents_disable()}}
+\end{lstlisting}
+
+\end{document}
