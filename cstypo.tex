@@ -50,10 +50,8 @@ penalization of line breaks after single letter words:
 %(\refitem{rulesList{itm:singleletter}):
 
 \begin{lstlisting}[style=myLatexStyle]
-\newcommand{\cstypoSingleLetterEnable}{%
-  \luaexec{cstypo_single_letter_enable()}}
-\newcommand{\cstypoSingleLetterDisable}{%
-  \luaexec{cstypo_single_letter_disable()}}
+\cstypoSingleLetterEnable
+\cstypoSingleLetterDisable
 \end{lstlisting}
 
 The following two macros allow to enable and disable hook that enforces the
@@ -64,20 +62,16 @@ to have this rule enforced for all of the single letter words except for the
 ‘a’.
 
 \begin{lstlisting}[style=myLatexStyle]
-\newcommand{\cstypoALetterEnable}{%
-  \luaexec{cstypo_a_letter_enable()}}
-\newcommand{\cstypoALetterDisable}{%
-  \luaexec{cstypo_a_letter_disable()}}
+\cstypoALetterEnable
+\cstypoALetterDisable
 \end{lstlisting}
 
 The following two macros allow to enable and disable hook that enforces
 penalization of line breaks between number and \% symbol.
 
 \begin{lstlisting}[style=myLatexStyle]
-\newcommand{\cstypoPercentsEnable}{%
-  \luaexec{cstypo_percents_enable()}}
-\newcommand{\cstypoPercentsDisable}{%
-  \luaexec{cstypo_percents_disable()}}
+\cstypoPercentsEnable
+\cstypoPercentsDisable
 \end{lstlisting}
 
 \end{document}
