@@ -1,3 +1,10 @@
+--[[--
+(c) 2016 Václav Haisman
+
+This program can be redistributed and/or modified under the terms of the MIT
+license. See LICENSE file.
+--]]--
+
 local GLYPH = node.id("glyph")
 --print('GLYPH value: ', GLYPH)
 
