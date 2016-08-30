@@ -15,6 +15,7 @@ ctanify --pkgname=cstypo \
         cstypo.sty=$LATEXDIR \
         cstypo-tex.tex=$TEXDIR \
         README.md=$DOCDIR \
+        LICENSE=$DOCDIR \
         cstypotest.tex=$DOCDIR \
         cstypotest.pdf=$DOCDIR \
         cstypo.tex=$DOCDIR \
