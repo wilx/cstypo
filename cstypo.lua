@@ -11,13 +11,16 @@ local GLYPH = node.id("glyph")
 local GLUE = node.id("glue")
 --print('GLUE value: ', GLUE)
 
+local CZECH_ID = cstypo_czech_language_id
+--print('CZECH_ID value: ', CZECH_ID)
 
 local function prevent_single_letter (head)
-  --print('prevent_single_letter hook is executing', head)
   while head do
     -- glyph
-    --print('inside prevent_single_letter loop, head.id: ', head.id)
-    if head.id == GLYPH then
+    if (head.id == GLYPH
+        -- and in Czech or unspecified (???)
+          and (head.lang == nil
+               or head.lang == CZECH_ID)) then
       -- only if we are at one letter word
       if unicode.utf8.match(unicode.utf8.char(head.char), "[zZsSuUkKoOvViI]") then
         -- and left of it is either a space
@@ -57,7 +60,10 @@ end
 local function prevent_a_letter (head)
   while head do
     -- glyph
-    if head.id == GLYPH then
+    if (head.id == GLYPH
+        -- and in Czech or unspecified (???)
+          and (head.lang == nil
+               or head.lang == CZECH_ID)) then
       -- only if we are at one letter word
       if unicode.utf8.match(unicode.utf8.char(head.char), "[aA]") then
         -- and previous is space
@@ -96,7 +102,10 @@ end
 local function prevent_percents (head)
   while head do
     -- glyph
-    if head.id == GLYPH then
+    if (head.id == GLYPH
+        -- and in Czech or unspecified (???)
+          and (head.lang == nil
+               or head.lang == CZECH_ID)) then
       -- only if we are at percentage sign
       if unicode.utf8.match(unicode.utf8.char(head.char), "[%%‰]") then
         -- and left of it is a space

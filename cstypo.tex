@@ -66,6 +66,9 @@ enforcable through this package.
 
 \section{User interface}
 
+Czech typography rules, when enabled by the following macros, are only
+enforced on text marked as Czech by \texttt{polyglossia} or \texttt{babel}.
+
 The following two macros allow to enable and disable hook that enforces
 penalization of line breaks after single letter words:
 %(\refitem{rulesList{itm:singleletter}):
@@ -95,6 +98,7 @@ penalization of line breaks between number and \% symbol.
 \cstypoPercentsDisable
 \end{lstlisting}
 
+
 \section{History}
 
 This package was inspired by
@@ -106,6 +110,8 @@ people of
 \href{http://tex.stackexchange.com/}{\TeX.SE} site itself.
 
 \begin{description}[style=nextline, labelwidth=4.5em, leftmargin=!, labelindent=0em]
+\item[\texttt{v0.03}] Limit Czech typography rules enforcement only to text
+  marked as Czech language.
 \item[\texttt{v0.02}] Fixed some packaging and documentation issues found by
   CTAN submission review.
 \item[\texttt{v0.01}] First published version of this package.
