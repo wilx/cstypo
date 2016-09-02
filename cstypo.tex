@@ -13,6 +13,12 @@
 \usepackage{polyglossia}
 \setmainlanguage[]{english}
 
+\usepackage{newunicodechar}
+\newunicodechar{℃}{{°C}}
+\newunicodechar{℉}{{°F}}
+
+\usepackage[autostyle]{csquotes}
+
 \author{Václav Haisman\texorpdfstring{%
     \\{\small\href{mailto:vhaisman+cstypo@gmail.com?subject=[cstypo]}{vhaisman@gmail.com}}}{}}
 \date{\today}
@@ -91,7 +97,9 @@ to have this rule enforced for all of the single letter words except for the
 \end{lstlisting}
 
 The following two macros allow to enable and disable hook that enforces
-penalization of line breaks between number and \% symbol.
+penalization of line breaks between number and \enquote*{\%} symbol and also
+few more symbols: per thousand~\enquote*{‰}, degree~\enquote*{°}, degree
+Celsius~\enquote*{℃} and degree Fahrenheit~\enquote*{℉}.
 
 \begin{lstlisting}[style=myLatexStyle]
 \cstypoPercentsEnable

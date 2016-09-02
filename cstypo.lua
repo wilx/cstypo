@@ -107,7 +107,7 @@ local function prevent_percents (head)
           and (head.lang == nil
                or head.lang == CZECH_ID)) then
       -- only if we are at percentage sign
-      if unicode.utf8.match(unicode.utf8.char(head.char), "[%%‰]") then
+      if unicode.utf8.match(unicode.utf8.char(head.char), "[%%‰°℃℉]") then
         -- and left of it is a space
         if (head.prev.id == GLUE
             -- and left of the space is a digit.
