@@ -106,6 +106,14 @@ Celsius~\enquote*{℃} and degree Fahrenheit~\enquote*{℉}.
 \cstypoPercentsDisable
 \end{lstlisting}
 
+The following two macros allow to enable and disable hook that enforces
+penalization of line breaks between~\enquote*{§} symbol and following number.
+
+\begin{lstlisting}[style=myLatexStyle]
+\cstypoParagraphEnable
+\cstypoParagraphDisable
+\end{lstlisting}
+
 
 \section{History}
 
@@ -119,7 +127,9 @@ people of
 
 \begin{description}[style=nextline, labelwidth=4.5em, leftmargin=!, labelindent=0em]
 \item[\texttt{v0.03}] Limit Czech typography rules enforcement only to text
-  marked as Czech language.
+  marked as Czech language. Handle per thousand~\enquote*{‰},
+  degree~\enquote*{°}, degree Celsius~\enquote*{℃}, degree
+  Fahrenheit~\enquote*{℉} and paragraph~\enquote*{§} symbols.
 \item[\texttt{v0.02}] Fixed some packaging and documentation issues found by
   CTAN submission review.
 \item[\texttt{v0.01}] First published version of this package.
