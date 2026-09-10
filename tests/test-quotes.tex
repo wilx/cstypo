@@ -1,0 +1,23 @@
+\input{common}
+\EnableAll
+
+\begin{document}
+\Check{double quoted preposition}{1}{34pt}{Text|„k domu“.}{Text „k domu“.}
+\Check{double quoted a}{1}{34pt}{Text|„a domu“.}{Text „a domu“.}
+\Check{single quoted preposition}{1}{34pt}{Text|‚k domu‘.}{Text ‚k domu‘.}
+\Check{single quoted a}{1}{34pt}{Text|‚a domu‘.}{Text ‚a domu‘.}
+\Check{quoted uppercase preposition}{1}{100pt}{}{Text „K domu“.}
+\Check{quoted uppercase A}{1}{100pt}{}{Text „A domu“.}
+\Check{nested quotes}{1}{100pt}{}{Text „‚k domu‘“.}
+\Check{nested brackets and quotes}{1}{100pt}{}{Text [(„a domu“)].}
+\Check{parentheses}{1}{100pt}{}{Text (k domu).}
+\Check{square brackets}{1}{100pt}{}{Text [k domu].}
+\Check{braces}{1}{100pt}{}{Text \{k domu\}.}
+\Check{parenthesized a}{1}{100pt}{}{Text (a domu).}
+\Check{quoted whole word}{0}{100pt}{}{Text „koza doma“.}
+\Check{English quote}{0}{34pt}{Text „k|domu“.}{\foreignlanguage{english}{Text „k domu“.}}
+\cstypoALetterDisable
+\Check{quoted a disabled}{0}{34pt}{Text „a|domu“.}{Text „a domu“.}
+\DisableAll
+\Check{quoted rule disabled}{0}{34pt}{Text „k|domu“.}{Text „k domu“.}
+\end{document}

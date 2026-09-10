@@ -26,7 +26,7 @@ local function is_word_boundary (n)
     or n.id == LOCAL_PAR
     or (n.id == HLIST and n.subtype == INDENT)
     or (n.id == GLYPH
-          and unicode.utf8.match(unicode.utf8.char(n.char), "[%[%]()%{%}]"))
+          and unicode.utf8.match(unicode.utf8.char(n.char), "[%[%]()%{%}„‚]"))
 end
 
 local function prevent_single_letter (head)
