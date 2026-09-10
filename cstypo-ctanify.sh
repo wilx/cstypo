@@ -1,10 +1,19 @@
 #!/bin/sh
-set -x
-set -e
+set -eux
 
-latexmk -gg -lualatex cstypotest.tex
+script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+cd "$script_dir"
 
-latexmk -gg -lualatex cstypo.tex
+for tool in latexmk lualatex ctanify tar gzip zip; do
+    if ! command -v "$tool" >/dev/null 2>&1; then
+        printf 'Required tool not found: %s\n' "$tool" >&2
+        exit 1
+    fi
+done
+
+latexmk -gg -lualatex -interaction=nonstopmode -halt-on-error cstypotest.tex
+
+latexmk -gg -lualatex -interaction=nonstopmode -halt-on-error cstypo.tex
 
 DOCDIR=doc/lualatex/cstypo
 LATEXDIR=tex/lualatex/cstypo
