@@ -1,0 +1,55 @@
+\input{common}
+\usepackage{xcolor}
+\EnableAll
+
+\begin{document}
+\Check{italic preposition}{1}{27pt}{Text|k domu.}{Text \textit{k} domu.}
+\Check{italic a}{1}{27pt}{Text|a domu.}{Text \textit{a} domu.}
+\Check{colored preposition}{1}{34pt}{Text|k domu.}{Text \textcolor{red}{k} domu.}
+\Check{colored a}{1}{34pt}{Text|a domu.}{Text \textcolor{red}{a} domu.}
+\Check{nested formatting}{1}{34pt}{Text|k domu.}{Text \textcolor{red}{\textit{k}} \textcolor{blue}{domu}.}
+\Check{colored number}{1}{38pt}{Text|50 \TestPercent.}{Text \textcolor{red}{50} \%.}
+\Check{colored percent}{1}{38pt}{Text|50 \TestPercent.}{Text 50 \textcolor{red}{\%}.}
+\Check{italic number}{1}{38pt}{Text|50 \TestPercent.}{Text \textit{50} \%.}
+\Check{both percent operands}{1}{38pt}{Text|50 \TestPercent.}{Text \textcolor{red}{50} \textcolor{blue}{\%}.}
+\Check{colored per mille}{1}{100pt}{}{Text 50 \textcolor{red}{‰}.}
+\Check{colored degree}{1}{100pt}{}{Text 50 \textcolor{red}{°C}.}
+\Check{colored Celsius}{1}{100pt}{}{Text 50 \textcolor{red}{℃}.}
+\Check{colored section}{1}{29pt}{Text|§ 50.}{Text \textcolor{red}{§} 50.}
+\Check{colored section number}{1}{29pt}{Text|§ 50.}{Text § \textcolor{red}{50}.}
+\Check{italic section}{1}{29pt}{Text|§ 50.}{Text \textit{§} 50.}
+\Check{both section operands}{1}{29pt}{Text|§ 50.}{Text \textcolor{red}{§} \textcolor{blue}{50}.}
+\Check{colored initial}{1}{30pt}{K domu.}{\textcolor{red}{K} domu.}
+\Check[5pt]{colored indented initial}{1}{100pt}{K domu.}{\textcolor{red}{K} domu.}
+\Check{italic initial}{1}{30pt}{K domu.}{\textit{K} domu.}
+\Check{colored initial a}{1}{30pt}{A domu.}{\textcolor{red}{A} domu.}
+\Check{colored quoted preposition}{1}{34pt}{Text|„k domu“.}{Text „\textcolor{red}{k} domu“.}
+\Check{italic quoted a}{1}{34pt}{Text|„a domu“.}{Text „\textit{a} domu“.}
+\Check{colored opening quote}{1}{34pt}{Text|„k domu“.}{Text \textcolor{red}{„}k domu“.}
+\Check{nested formatted punctuation}{1}{100pt}{}{Text [(„\textcolor{red}{\textit{k}} domu“)].}
+\Check{whole italic quote}{1}{100pt}{}{Text \textit{„V domech“}.}
+
+\Check{colored letter inside word}{0}{100pt}{Text koza doma.}{Text \textcolor{red}{k}oza doma.}
+\Check{italic letter inside word}{0}{100pt}{Text rok doma.}{Text ro\textit{k} doma.}
+\Check{colored final a}{0}{100pt}{Text koza doma.}{Text koz\textcolor{red}{a} doma.}
+\Check{no space before percent}{0}{100pt}{}{Text 50\textcolor{red}{\%}.}
+\Check{no space after section}{0}{100pt}{}{Text \textcolor{red}{§}50.}
+\Check{box after preposition}{0}{100pt}{}{Text \textcolor{red}{k}\hbox{} domu.}
+\Check{box before preposition}{0}{100pt}{}{Text \hbox{}\textcolor{red}{k} domu.}
+\Check{box before percent}{0}{100pt}{}{Text 50\hbox{} \textcolor{red}{\%}.}
+\Check{box after section}{0}{100pt}{}{Text \textcolor{red}{§}\hbox{} 50.}
+\Check{explicit kern before letter}{0}{100pt}{}{Text \kern1pt\textcolor{red}{k} domu.}
+\Check{explicit kern after letter}{0}{100pt}{}{Text \textcolor{red}{k}\kern1pt{} domu.}
+\Check{intervening penalty}{0}{100pt}{}{Text \textcolor{red}{k}\penalty0{} domu.}
+\Check{intervening discretionary}{0}{100pt}{}{Text \textcolor{red}{k}\discretionary{}{}{} domu.}
+\Check{other whatsit}{0}{100pt}{}{Text \textcolor{red}{k}\pdfextension literal{} domu.}
+\Check{existing nonbreaking space}{1}{100pt}{}{Text \textcolor{red}{k}~domu.}
+\Check{terminal italic letter}{0}{100pt}{Text k}{Text \textit{k}}
+\Check{initial colored percent}{0}{100pt}{}{\textcolor{red}{\%} text.}
+\Check{terminal colored section}{0}{100pt}{Text §}{Text \textcolor{red}{§}}
+\Check{English formatting}{0}{200pt}{}{\foreignlanguage{english}{Text \textcolor{red}{k} domu \textit{a} \textcolor{red}{50} \% \textcolor{red}{§} 50.}}
+\cstypoALetterDisable
+\Check{formatted a disabled}{0}{34pt}{Text a|domu.}{Text \textcolor{red}{a} domu.}
+\DisableAll
+\Check{formatted rule disabled}{0}{34pt}{Text k|domu.}{Text \textcolor{red}{k} domu.}
+\end{document}
