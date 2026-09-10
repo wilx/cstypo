@@ -14,6 +14,8 @@ local GLUE = node.id("glue")
 local CZECH_ID = cstypo_czech_language_id
 --print('CZECH_ID value: ', CZECH_ID)
 
+local enabled_hooks = {}
+
 local function prevent_single_letter (head)
   while head do
     -- glyph
@@ -46,14 +48,22 @@ local function prevent_single_letter (head)
 end
 
 function cstypo_single_letter_enable ()
+  if enabled_hooks.cstyposingleletter then
+    return
+  end
   print('cstypo: Enabling single letter hook.')
   luatexbase.add_to_callback("pre_linebreak_filter", prevent_single_letter,
                              "cstyposingleletter")
+  enabled_hooks.cstyposingleletter = true
 end
 
 function cstypo_single_letter_disable ()
+  if not enabled_hooks.cstyposingleletter then
+    return
+  end
   print('cstypo: Disabling single letter hook.')
   luatexbase.remove_from_callback("pre_linebreak_filter", "cstyposingleletter")
+  enabled_hooks.cstyposingleletter = false
 end
 
 
@@ -88,14 +98,22 @@ local function prevent_a_letter (head)
 end
 
 function cstypo_a_letter_enable ()
+  if enabled_hooks.cstypoaletter then
+    return
+  end
   print('cstypo: Enabling \'a\' letter hook.')
   luatexbase.add_to_callback("pre_linebreak_filter", prevent_a_letter,
                              "cstypoaletter")
+  enabled_hooks.cstypoaletter = true
 end
 
 function cstypo_a_letter_disable ()
+  if not enabled_hooks.cstypoaletter then
+    return
+  end
   print('cstypo: Disabling \'a\' letter hook.')
   luatexbase.remove_from_callback("pre_linebreak_filter", "cstypoaletter")
+  enabled_hooks.cstypoaletter = false
 end
 
 
@@ -126,14 +144,22 @@ local function prevent_percents (head)
 end
 
 function cstypo_percents_enable()
+  if enabled_hooks.cstypopercents then
+    return
+  end
   print('cstypo: Enabling percents hook.')
   luatexbase.add_to_callback("pre_linebreak_filter", prevent_percents,
                              "cstypopercents")
+  enabled_hooks.cstypopercents = true
 end
 
 function cstypo_percents_disable()
+  if not enabled_hooks.cstypopercents then
+    return
+  end
   print('cstypo: Disabling percents hook.')
   luatexbase.remove_from_callback("pre_linebreak_filter", "cstypopercents")
+  enabled_hooks.cstypopercents = false
 end
 
 
@@ -165,12 +191,20 @@ local function prevent_paragraph (head)
 end
 
 function cstypo_paragraph_enable()
+  if enabled_hooks.cstypoparagraph then
+    return
+  end
   print('cstypo: Enabling paragraph hook.')
   luatexbase.add_to_callback("pre_linebreak_filter", prevent_paragraph,
                              "cstypoparagraph")
+  enabled_hooks.cstypoparagraph = true
 end
 
 function cstypo_paragraph_disable()
+  if not enabled_hooks.cstypoparagraph then
+    return
+  end
   print('cstypo: Disabling paragraph hook.')
   luatexbase.remove_from_callback("pre_linebreak_filter", "cstypoparagraph")
+  enabled_hooks.cstypoparagraph = false
 end

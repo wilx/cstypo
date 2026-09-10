@@ -1,0 +1,28 @@
+\documentclass{article}
+\usepackage{fontspec}
+% Polyglossia also enables luavlna; use Babel to test cstypo alone.
+\usepackage[english,czech]{babel}
+\usepackage{cstypo}
+\directlua{cstypo_test = require('test-support')}
+\edef\TestPercent{\csname @percentchar\endcsname}
+
+% Optional indentation, label, penalty count, width, expected lines, text.
+% Separate expected lines with |; leave empty to check penalties only.
+\newcommand\Check[6][0pt]{%
+  \begingroup
+  \hsize=#4\relax
+  \parindent=#1\relax
+  \pretolerance=10000 \tolerance=10000 \hyphenpenalty=10000
+  \hbadness=10000
+  \directlua{cstypo_test.begin('\luaescapestring{#2}', #3,
+    '\luaescapestring{#5}')}%
+  \ifdim\parindent=0pt \noindent\else\indent\fi
+  #6\par
+  \endgroup}
+
+\newcommand\EnableAll{%
+  \cstypoSingleLetterEnable\cstypoALetterEnable
+  \cstypoPercentsEnable\cstypoParagraphEnable}
+\newcommand\DisableAll{%
+  \cstypoSingleLetterDisable\cstypoALetterDisable
+  \cstypoPercentsDisable\cstypoParagraphDisable}

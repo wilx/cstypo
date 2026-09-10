@@ -1,0 +1,43 @@
+\input{common}
+
+\newcommand\CheckRules[5]{%
+  \Check{#1 single}{#2}{100pt}{}{Text k domu.}%
+  \Check{#1 a}{#3}{100pt}{}{Text a domu.}%
+  \Check{#1 percent}{#4}{100pt}{}{Text 50 \%.}%
+  \Check{#1 section}{#5}{100pt}{}{Text § 50.}}
+
+\newcommand\CheckToggle[5]{%
+  \csname cstypo#1Enable\endcsname
+  \csname cstypo#1Enable\endcsname
+  \CheckRules{#1 enabled twice}{#2}{#3}{#4}{#5}%
+  \csname cstypo#1Disable\endcsname
+  \CheckRules{#1 disabled once}{0}{0}{0}{0}%
+  \csname cstypo#1Disable\endcsname
+  \CheckRules{#1 disabled twice}{0}{0}{0}{0}%
+  \csname cstypo#1Enable\endcsname
+  \CheckRules{#1 re-enabled}{#2}{#3}{#4}{#5}%
+  \csname cstypo#1Disable\endcsname}
+
+\begin{document}
+\DisableAll\DisableAll
+\CheckRules{initially disabled}{0}{0}{0}{0}
+\CheckToggle{SingleLetter}{1}{0}{0}{0}
+\CheckToggle{ALetter}{0}{1}{0}{0}
+\CheckToggle{Percents}{0}{0}{1}{0}
+\CheckToggle{Paragraph}{0}{0}{0}{1}
+
+\EnableAll
+\Check{enabled single}{1}{38pt}{Text|k domu.}{Text k domu.}
+\Check{enabled a}{1}{38pt}{Text|a domu.}{Text a domu.}
+\Check{enabled percent}{1}{38pt}{Text|50 \TestPercent.}{Text 50 \%.}
+\Check{enabled section}{1}{29pt}{Text|§ 50.}{Text § 50.}
+\Check{all enabled}{4}{200pt}{}{Text k domu a 50 \% § 50.}
+\Check{English}{0}{200pt}{}{\foreignlanguage{english}{Text k domu a 50 \% § 50.}}
+\cstypoALetterDisable
+\CheckRules{only a disabled}{1}{0}{1}{1}
+\DisableAll
+\Check{disabled single}{0}{38pt}{Text k|domu.}{Text k domu.}
+\Check{disabled a}{0}{38pt}{Text a|domu.}{Text a domu.}
+\Check{disabled percent}{0}{38pt}{Text 50|\TestPercent.}{Text 50 \%.}
+\Check{disabled section}{0}{29pt}{Text §|50.}{Text § 50.}
+\end{document}
