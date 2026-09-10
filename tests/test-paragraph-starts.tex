@@ -1,0 +1,29 @@
+\input{common}
+\EnableAll
+
+\newcommand\CheckStart[1]{%
+  \Check{unindented #1}{1}{100pt}{#1 domu.}{#1 domu.}%
+  \Check[5pt]{indented #1}{1}{100pt}{#1 domu.}{#1 domu.}}
+
+\begin{document}
+\CheckStart{z}\CheckStart{Z}\CheckStart{s}\CheckStart{S}
+\CheckStart{u}\CheckStart{U}\CheckStart{k}\CheckStart{K}
+\CheckStart{o}\CheckStart{O}\CheckStart{v}\CheckStart{V}
+\CheckStart{i}\CheckStart{I}\CheckStart{a}\CheckStart{A}
+\Check{narrow initial K}{1}{30pt}{K domu.}{K domu.}
+\Check{narrow initial A}{1}{30pt}{A domu.}{A domu.}
+\Check{inline box before k}{0}{100pt}{}{Text \hbox{domu}k domu.}
+\Check{inline box before a}{0}{100pt}{}{Text \hbox{domu}a domu.}
+\Check{empty inline box}{0}{100pt}{}{Text \hbox{}k domu.}
+\Check{whole word}{0}{100pt}{Koza doma.}{Koza doma.}
+\Check{terminal k}{0}{100pt}{Text k}{Text k}
+\Check{terminal a}{0}{100pt}{Text a}{Text a}
+\Check{terminal section}{0}{100pt}{Text §}{Text §}
+\Check{initial percent}{0}{100pt}{}{\% text.}
+\Check{English initial}{0}{30pt}{K|domu.}{\foreignlanguage{english}{K domu.}}
+\cstypoALetterDisable
+\Check{optional a disabled}{0}{30pt}{A|domu.}{A domu.}
+\Check{preposition still enabled}{1}{30pt}{K domu.}{K domu.}
+\DisableAll
+\Check{initial rule disabled}{0}{30pt}{K|domu.}{K domu.}
+\end{document}

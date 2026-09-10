@@ -11,10 +11,23 @@ local GLYPH = node.id("glyph")
 local GLUE = node.id("glue")
 --print('GLUE value: ', GLUE)
 
+local LOCAL_PAR = node.id("local_par")
+local HLIST = node.id("hlist")
+local INDENT = 3 -- paragraph indentation hlist subtype
+
 local CZECH_ID = cstypo_czech_language_id
 --print('CZECH_ID value: ', CZECH_ID)
 
 local enabled_hooks = {}
+
+local function is_word_boundary (n)
+  return not n
+    or n.id == GLUE
+    or n.id == LOCAL_PAR
+    or (n.id == HLIST and n.subtype == INDENT)
+    or (n.id == GLYPH
+          and unicode.utf8.match(unicode.utf8.char(n.char), "[%[%]()%{%}]"))
+end
 
 local function prevent_single_letter (head)
   while head do
@@ -25,14 +38,10 @@ local function prevent_single_letter (head)
                or head.lang == CZECH_ID)) then
       -- only if we are at one letter word
       if unicode.utf8.match(unicode.utf8.char(head.char), "[zZsSuUkKoOvViI]") then
-        -- and left of it is either a space
-        if ((head.prev.id == GLUE
-             -- or one of '{[('
-               or (head.prev.id == GLYPH
-                     and unicode.utf8.match(unicode.utf8.char(head.prev.char),
-                                            "[%[%]()%{%}]")))
+        -- and left of it is a word boundary
+        if (is_word_boundary(head.prev)
           -- and right of the one letter word is also a space
-          and head.next.id == GLUE) then
+          and head.next and head.next.id == GLUE) then
           -- then avoid line break between the single letter word and the
           -- word following it
           local p = node.new("penalty")
@@ -76,14 +85,10 @@ local function prevent_a_letter (head)
                or head.lang == CZECH_ID)) then
       -- only if we are at one letter word
       if unicode.utf8.match(unicode.utf8.char(head.char), "[aA]") then
-        -- and previous is space
-        if ((head.prev.id == GLUE
-             -- or previous is one of '{[('
-               or (head.prev.id == GLYPH
-                     and unicode.utf8.match(unicode.utf8.char(head.prev.char),
-                                            "[%[%]()%{%}]")))
+        -- and left of it is a word boundary
+        if (is_word_boundary(head.prev)
           -- and right of the one letter word is also a space
-          and head.next.id == GLUE) then
+          and head.next and head.next.id == GLUE) then
           -- then avoid line break between the single letter word and the
           -- word following it
           local p = node.new("penalty")
@@ -127,9 +132,9 @@ local function prevent_percents (head)
       -- only if we are at percentage sign
       if unicode.utf8.match(unicode.utf8.char(head.char), "[%%‰°℃℉]") then
         -- and left of it is a space
-        if (head.prev.id == GLUE
+        if (head.prev and head.prev.id == GLUE
             -- and left of the space is a digit.
-              and head.prev.prev.id == GLYPH
+              and head.prev.prev and head.prev.prev.id == GLYPH
               and unicode.utf8.match(unicode.utf8.char(head.prev.prev.char),
                                      "[0-9]")) then
           local p = node.new("penalty")
@@ -173,8 +178,8 @@ local function prevent_paragraph (head)
       -- only if we are at paragraph symbol
       if unicode.utf8.match(unicode.utf8.char(head.char), "[§]") then
         -- and right of it is a space
-        if (head.next.id == GLUE
-              and (head.next.next.id == GLYPH
+        if (head.next and head.next.id == GLUE
+              and (head.next.next and head.next.next.id == GLYPH
                      and unicode.utf8.match(unicode.utf8.char(head.next.next.char),
                                             "[0-9]"))) then
           -- then avoid line break between the paragraph and the number
